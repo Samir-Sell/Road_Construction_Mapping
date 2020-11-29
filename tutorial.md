@@ -76,5 +76,38 @@ maps_folder = os.path.join(working_directory, "Maps") # Create a maps folder pat
 maps_day_folder = os.path.join(maps_folder, date_today) # Create a specific day path in our general maps path
 ````
 
+We will now use the paths we made and test if they exist within where we are running our program. If they are not, we will create them. We test if the directory already exists in order to prevent us from duplicating folders or from creating complications in our script. 
+````
+# Check if the overarching maps folder exists and if not, create it
+if not os.path.isdir(maps_folder):
+ 	os.mkdir(maps_folder)
+
+# Check if the specific day directory exists and if not, create it
+if not os.path.isdir(maps_day_folder):
+        os.mkdir(maps_day_folder)
+
+# Create GeoJSON folder and add it to repository
+if not os.path.isdir("./geojson"):
+	os.mkdir("./geojson")
+````
+
+We will now check to see if our reference layer folder exists, if it does not (ie the first time we run this), we will create it and download the layer file from the City of Ottawa. You will notice I use the word datafram in the comments below. a dataframe is the primary type of data structure used to store information in GeoPandas. 
+````
+# If the reference basemap does not exist, create it, download it and write it into a dataframe
+if not os.path.isfile(reference_file):
+	os.mkdir(reference_folder)
+	geojson_call = requests.get('https://opendata.arcgis.com/datasets/845bbfdb73944694b3b81c5636be46b5_0.geojson') # Send the get request and assign it to a variable
+	geojson_file = open(reference_file, "w") # Open a new file based on a previous path we have created
+	geojson_file.write(geojson_call.text) # Write the text from the geojson to our newly created geojson_file variable.
+# Incase we have run our script from this directory before, we create an option to skip this step
+else:
+	pass
+	
+reference_layer_read = open(reference_file) # We now read in our reference file
+reference_layer_df = geopandas.read_file(reference_layer_read) # We then create our geopandas dataframe by reading in our previously read in reference file
+````
+
+Voila! We now have our file structure creates and our reference file stored in a geopandas dataframe!
+
 
 		
