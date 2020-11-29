@@ -67,7 +67,7 @@ In our main function we want to use the datetime module to generate a date objec
 `date_today = str(date.today())`
 
 
-Next we want to use the OS module to create our file structure and point towards our reference data. This code will go in our main funcion.
+Next we want to use the OS module to create our file structure and point towards our reference data. All the blow code will go in our main funcion unless otherwise specified.
 ````
 working_directory = os.getcwd() # Find our current working directory in order to build other directories off of this
 reference_file = os.path.join(working_directory, "ottawa_boundaries", "ottawa_boundaries.geojson") # Use OS path.join function to point to our reference file
@@ -99,6 +99,7 @@ if not os.path.isfile(reference_file):
 	geojson_call = requests.get('https://opendata.arcgis.com/datasets/845bbfdb73944694b3b81c5636be46b5_0.geojson') # Send the get request and assign it to a variable
 	geojson_file = open(reference_file, "w") # Open a new file based on a previous path we have created
 	geojson_file.write(geojson_call.text) # Write the text from the geojson to our newly created geojson_file variable.
+	geojson_file.close() # Close the file
 # Incase we have run our script from this directory before, we create an option to skip this step
 else:
 	pass
@@ -107,7 +108,16 @@ reference_layer_read = open(reference_file) # We now read in our reference file
 reference_layer_df = geopandas.read_file(reference_layer_read) # We then create our geopandas dataframe by reading in our previously read in reference file
 ````
 
-Voila! We now have our file structure creates and our reference file stored in a geopandas dataframe!
+Voila! We now have our file structure created and our reference file stored in a geopandas dataframe! The next step will be to create another get call to download the newest road construction data from the City of Ottawa.
+````
+# Perform a GET call to pull the GeoJSON construction data from the City of Ottawa's webpage
+# Write our geojson get call to a local geojson file with todays date within the geojson directory
+print("Downloading road construction data....") # Create an update to inform the user what is happening
+geojson_call = requests.get('https://opendata.arcgis.com/datasets/d2fe8f7e3cf24615b62dfc954b5c26b9_0.geojson') # Send the get request
+geojson_file = open("./geojson/" + "{date}_rd_construction.geojson".format(date=date_today), "w") # Open a new geojson file with the download date of the geojson
+geojson_file.write(geojson_call.text) # Write to our new file
+geojson_file.close() # Close the file
+````
 
 
 		
