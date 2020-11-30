@@ -108,7 +108,7 @@ reference_layer_read = open(reference_file) # We now read in our reference file
 reference_layer_df = geopandas.read_file(reference_layer_read) # We then create our geopandas dataframe by reading in our previously read in reference file
 ````
 
-Voila! We now have our file structure created and our reference file stored in a geopandas dataframe! The next step will be to create another get call to download the newest road construction data from the City of Ottawa.
+Voila! We now have our file structure created and our reference file stored in a geopandas dataframe! The next step will be to create another get call to download the newest road construction data from the City of Ottawa. After that, we will also write this geojson to a GeoPandas dataframe.
 ````
 # Perform a GET call to pull the GeoJSON construction data from the City of Ottawa's webpage
 # Write our geojson get call to a local geojson file with todays date within the geojson directory
@@ -117,7 +117,30 @@ geojson_call = requests.get('https://opendata.arcgis.com/datasets/d2fe8f7e3cf246
 geojson_file = open("./geojson/" + "{date}_rd_construction.geojson".format(date=date_today), "w") # Open a new geojson file with the download date of the geojson
 geojson_file.write(geojson_call.text) # Write to our new file
 geojson_file.close() # Close the file
+
+# Load the GeoJSON into a Geopandas dataframe
+working_file = os.path.join(working_directory , "geojson" , "{date}_rd_construction.geojson".format(date=date_today)) # Create a working file variable path with the current date
+gp_read = open(working_file) # Open the current geojson road contruction file (The working file)
+gp_df = geopandas.read_file(gp_read) # Write the opened file to a Geopandas dataframe.
+
 ````
+
+## Data Cleaning
+It is important to be able to automate the processing and cleaning of data. Especially when you receive large amounts of data on a regular basis. In the following steps, we will learn how to extract only the desired data from this relatively large road construction dataset. We have our road construction dataset as a geodataframe which will allow us full access to all of the useful functions and methods within geopandas. 
+
+The first functions we wil use is the .drop method that can be called on a geodataframe (gdf). It takes a parameter of a list of labels where we can specify which columns of our gdf we want dropped. In this case, we are removing the French columns and some other columns that are not required in our analysis. The axis parameter tell geopandas which row we want to search for the labels in. We entered 1, as these are our column headings. Lastly, we used the method .dropna which removed all rows where there is missing data (N/A or NaN). 
+
+````
+# Remove uneeded columns and drop rows with no values
+print("Cleaning and processing data....") # Provide the user with an update
+clean_df = gp_df.drop(labels=[
+	'FEATURE_TYPE_FR', 'STATUS_FR', 'TARGETED_START_FR', 'PROJECT_MANAGER', 'PROJECTWEBPAGE', 'PROJECTWEBPAGE_FR'
+        ], axis=1).dropna()
+````
+
+
+
+
 
 
 		
