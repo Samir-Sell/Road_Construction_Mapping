@@ -166,9 +166,9 @@ road_df = clean_df[road_filter] # Apply Filter
  
  ## Making the Maps
  
- We now have our final cleaned data that has no missing values, no missing geometries, no undeeded columns and only construction relating to roads. The next step is to turn this data into a consumable map using matplotlib. This tutorial intends to create a series of maps that will differ based on the targeted start of the construction project. The next snippet of code will generate all the data we are going to need to send to a function we will write called save_map(). 
+We now have our final cleaned data that has no missing values, no missing geometries, no undeeded columns and only construction relating to roads. The next step is to turn this data into a consumable map using matplotlib. This tutorial intends to create a series of maps that will differ based on the targeted start of the construction project. The next snippet of code will generate all the data we are going to need to send to a function we will write called save_map(). 
  
- First, we want to write a string that will let us identify which map we are working on. We will then create a new filter based on the "TARGETED_START" column and convert the data to string and then select cells that start with "This". Based on our manual data examination at the beginning of this tutorial, you may have noticed that in progress construction projects start with "This". We will then apply this filter to our road_df to create a new geodataframe for this map. Lastly, we will send our reference layer we created from before, the gdf we just created, our identification string, todays date and the directory we created to our save maps. These will be sent to a function we are going to create called save_map. 
+First, we want to write a string that will let us identify which map we are working on. We will then create a new filter based on the "TARGETED_START" column and convert the data to string and then select cells that start with "This". Based on our manual data examination at the beginning of this tutorial, you may have noticed that in progress construction projects start with "This". We will then apply this filter to our road_df to create a new geodataframe for this map. Lastly, we will send our reference layer we created from before, the gdf we just created, our identification string, todays date and the directory we created to our save maps. These will be sent to a function we are going to create called save_map. 
  
  ```python
 # Filter for road construction and send layers to be processed into a map
@@ -178,9 +178,18 @@ in_progress_df = road_df[in_progress_filter] # Apply filter
 save_map(reference_layer_df, in_progress_df, layer_title, date_today, maps_day_folder) # Send layers
  ```
  
-
-
-
-
+ ## Creating the save_map function
+ 
+We are going to create a function to handle map creation for the 4 time periods we want to display. We will make date specific maps to represent this years projects, 1 to 2 years, 3 to 5 years, and 4 to 7 years. This function will be sent our reference layer we created from before, the gdf we just createdc(in_progess_df), our identification string, todays date and the directory we created to save our maps. 
+ 
+ Lets declare the function and send in our data. 
+ 
+```python
+def save_map(reference_layer_df, in_df, layer_title, date_today, mapping_directory):
+    
+	'''
+	Function to create maps and calculate length of road constructions
+	'''
+````
 
 		
