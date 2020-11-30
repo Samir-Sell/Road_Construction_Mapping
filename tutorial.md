@@ -137,6 +137,34 @@ clean_df = gp_df.drop(labels=[
         ], axis=1).dropna()
 ````
 
+We are basing our series of maps on the "STATUS" column of the data. From look at the data earlier, you may have noticed some of the values were NOTAVAIL which is not good for our analysis. Therefore, we will remove these rows from our data. We use a geopandas filter again to pull only the STATUS column from our geodataframe. We then cast it into a set in order to get rid of duplicate values. We then loop through the set to check if there are "NOTAVAIL" values in our data. If there is, we perform another filter that only selects for data where the STATUS column value is NOT "NOTAVAIL". This new filter then becomes a new geodataframe called status_removed. 
+
+```python
+# Check for NOTAVAIL and if these rows exist, then remove them
+not_avail_check = set(clean_df['STATUS']) # Create filter to select all values in the STATUS column
+    for value in not_avail_check: # Loop through the set to check for NOTAVAIL values
+        if value == 'NOTAVAIL':
+            status_removed = clean_df[clean_df.STATUS != 'NOTAVAIL'] # Create filter to only select rows where the STATUS column value does not equal NOTAVAIL
+        else:
+            pass
+````
+
+Since we will be putting this data on a map, we want to make sure we remove any data that does not have an actual location / geometry attached to it. Geopandas has a handy feature / filter we can use to check this called .is_empty. If a geometry is missing, the cell will return a value of true. We want to use this as a filter in order to only select data that does not have missing geometry. We also use a tilda (~) to invert the data from false to true. Therefore, a row with no geometry will return true, and we will invert that to false. 
+
+```python
+ # Drop empty geometries 
+ clean_df = status_removed[~status_removed.is_empty]
+ ````
+ 
+ The filter we just created will now be further filtered in order to pull only road data from the whole dataset. We will create another filter to only select data from "FEATURE_TYPE". We will then convert these rows to strings and then use the string method called .startswith() to select only road construction features. The road_filter is then used to filter our clean_df dataframe and create a new final geodataframe called road_df. 
+ 
+ ```python
+# Filter for road resurfacing attributes by creating a filter
+road_filter = clean_df["FEATURE_TYPE"].str.startswith("RD") # Create filter
+road_df = clean_df[road_filter] # Apply Filter
+````
+ 
+ 
 
 
 
