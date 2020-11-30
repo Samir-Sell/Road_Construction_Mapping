@@ -47,7 +47,7 @@ We finally have our entire Python environment set up!
 ## Beginning to Code
 
 The first step to begin coding is to import all of our modules:
-```
+```python
 import geopandas # For automation and data cleaning of our geojson files
 import os # Allow us to manipulate where we save our files and move around our folders
 import matplotlib.pyplot as plt # Allow us to create maps
@@ -56,19 +56,19 @@ from datetime import date # Allow us to generate current dates
 import contextily as ctx # Allow us to add base maps
 ```
 The next step is to create our main function, call it and then set up our file structure:
-````
+```python
 def main():
 if __name__ == "__main__":
 
 main()
-````
+```
 
 In our main function we want to use the datetime module to generate a date object:
 `date_today = str(date.today())`
 
 
 Next we want to use the OS module to create our file structure and point towards our reference data. All the blow code will go in our main funcion unless otherwise specified.
-````
+```python
 working_directory = os.getcwd() # Find our current working directory in order to build other directories off of this
 reference_file = os.path.join(working_directory, "ottawa_boundaries", "ottawa_boundaries.geojson") # Use OS path.join function to point to our reference file
 reference_folder = os.path.join(working_directory, "ottawa_boundaries" ) # Create a path for our reference folder 
@@ -77,7 +77,7 @@ maps_day_folder = os.path.join(maps_folder, date_today) # Create a specific day 
 ````
 
 We will now use the paths we made and test if they exist within where we are running our program. If they are not, we will create them. We test if the directory already exists in order to prevent us from duplicating folders or from creating complications in our script. 
-````
+```python
 # Check if the overarching maps folder exists and if not, create it
 if not os.path.isdir(maps_folder):
  	os.mkdir(maps_folder)
@@ -92,7 +92,7 @@ if not os.path.isdir("./geojson"):
 ````
 
 We will now check to see if our reference layer folder exists, if it does not (ie the first time we run this), we will create it and download the layer file from the City of Ottawa. You will notice I use the word datafram in the comments below. a dataframe is the primary type of data structure used to store information in GeoPandas. 
-````
+```python
 # If the reference basemap does not exist, create it, download it and write it into a dataframe
 if not os.path.isfile(reference_file):
 	os.mkdir(reference_folder)
@@ -109,7 +109,7 @@ reference_layer_df = geopandas.read_file(reference_layer_read) # We then create 
 ````
 
 Voila! We now have our file structure created and our reference file stored in a geopandas dataframe! The next step will be to create another get call to download the newest road construction data from the City of Ottawa. After that, we will also write this geojson to a GeoPandas dataframe.
-````
+```python
 # Perform a GET call to pull the GeoJSON construction data from the City of Ottawa's webpage
 # Write our geojson get call to a local geojson file with todays date within the geojson directory
 print("Downloading road construction data....") # Create an update to inform the user what is happening
@@ -122,7 +122,6 @@ geojson_file.close() # Close the file
 working_file = os.path.join(working_directory , "geojson" , "{date}_rd_construction.geojson".format(date=date_today)) # Create a working file variable path with the current date
 gp_read = open(working_file) # Open the current geojson road contruction file (The working file)
 gp_df = geopandas.read_file(gp_read) # Write the opened file to a Geopandas dataframe.
-
 ````
 
 ## Data Cleaning
@@ -130,7 +129,7 @@ It is important to be able to automate the processing and cleaning of data. Espe
 
 The first functions we wil use is the .drop method that can be called on a geodataframe (gdf). It takes a parameter of a list of labels where we can specify which columns of our gdf we want dropped. In this case, we are removing the French columns and some other columns that are not required in our analysis. The axis parameter tell geopandas which row we want to search for the labels in. We entered 1, as these are our column headings. Lastly, we used the method .dropna which removed all rows where there is missing data (N/A or NaN). 
 
-````
+```python
 # Remove uneeded columns and drop rows with no values
 print("Cleaning and processing data....") # Provide the user with an update
 clean_df = gp_df.drop(labels=[
