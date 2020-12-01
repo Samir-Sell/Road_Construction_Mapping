@@ -231,4 +231,9 @@ length_for_map = "{:.0f}".format(length_of_roads)
 plt.text(x=-75.4,y=44.95, s="Road Work (km): {}".format(length_for_map)) # Add text with length info to our maps
 ````
 
-A basemap is alwats useful in order to give cont
+A basemap is always useful in order to give context to a map. We are going to use a python library called Contextily that will allow us to access Open Street Map and utilize it as a basemap. We will using its .add_basemap method to add a basemap to our axis. First we specify which axis we want to add it to, then we specify which crs we want to display the basemap in. It has to be the same crs as our data. In order to ensure this, we call the .crs method of our geodataframe and then we convert the value to a string in order to be an acceptable parameter. Then we specify the source of the basemap by acessing contextilys providers and then specifiing open street map and then mapnik. 
+
+```python
+# Assign basemap
+ctx.add_basemap(ax, crs=in_df.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
+````
