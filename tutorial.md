@@ -244,7 +244,7 @@ plt.savefig(os.path.join(mapping_directory, map_name))
 
 ## Finishing Touches 
 
-We now have our function created and everything else layed out. We now need to call the function three more times in order to create the rest of our maps for the different expected construction time periods. We will repeat the code snippet that was used in the "Making the Map" subheader of this tutorial. However, we will alter the layer title and what values we are filtering for in order to create a map for projects started in the next 1 to 2 years, 3 to 5 years and then 4 to 7 years. The code explanation is the same and the 3 other maps are posted below and are in our main function under the in progress snipped we created earlier. 
+We now have our function created and everything else layed out. We now need to call the function three more times in order to create the rest of our maps for the different expected construction time periods. We will repeat the code snippet that was used in the "Making the Map" subheader of this tutorial. However, we will alter the layer title and what values we are filtering for in order to create a map for projects started in the next 1 to 2 years, 3 to 5 years and then 4 to 7 years. The code explanation is the same and the 3 other maps are posted below and are in our main function under the in progress snippet we created earlier. 
 
 ```python
 # Filter for road construction starting in 1 - 2 years and send layers to be processed into a map
@@ -267,3 +267,5 @@ We now have our function created and everything else layed out. We now need to c
 
     print("Script completed successfully")
 ````
+
+Congratulations! You have now created your map generating tool for 
