@@ -237,3 +237,12 @@ A basemap is always useful in order to give context to a map. We are going to us
 # Assign basemap
 ctx.add_basemap(ax, crs=in_df.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
 ````
+
+Finally, we will save our finished map.The first step will be to create a file name for the map. The we will use the path.join method of the OS module to allow us to join our mapping directory and the mape_name file name in order to create a new file path. We will then use that full file path to save our figure using our figures .savefig method. This will be the end of our fully completed function.
+
+```python
+# Save map to mapping directory
+map_name = layer_title + date_today
+print("Saving map: " + map_name + "....")
+plt.savefig(os.path.join(mapping_directory, map_name))
+````
