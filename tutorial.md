@@ -191,5 +191,16 @@ def save_map(reference_layer_df, in_df, layer_title, date_today, mapping_directo
 	Function to create maps and calculate length of road constructions
 	'''
 ````
+The following code, unless specified, will now be placed in our function. 
 
-		
+In this snippet, we create the figure and the axis object.We specify we want only 1 column and 1 row, and then we specify the figure size we want it ot output. The final title for the figure is created. Then we use a method to assign our final title string to the figure and dictate its size, as well as the pad. The pad is short for padding and dictates how far the title will hover above the figure. 
+
+
+```python
+# Create axis to be plotted
+fig, ax = plt.subplots(1,1,figsize=(15,15))
+
+# Create title
+map_title = layer_title.replace("_", " ") + "Road Construction"
+plt.title(label=map_title, fontdict={'fontsize' : 30}, pad=10)
+````
