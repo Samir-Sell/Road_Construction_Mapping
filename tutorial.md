@@ -198,9 +198,37 @@ In this snippet, we create the figure and the axis object.We specify we want onl
 
 ```python
 # Create axis to be plotted
-fig, ax = plt.subplots(1,1,figsize=(15,15))
+fig, ax = plt.subplots(1,1,figsize=(15,15)) # Generate Figure
 
 # Create title
-map_title = layer_title.replace("_", " ") + "Road Construction"
-plt.title(label=map_title, fontdict={'fontsize' : 30}, pad=10)
+map_title = layer_title.replace("_", " ") + "Road Construction" # String concatenation to make final title 
+plt.title(label=map_title, fontdict={'fontsize' : 30}, pad=10) # Create and format figure title
 ````
+
+Now we will plot our layers to the axis of the figure. First, we have to specify which axis was want to add the layer to. Then we can assign a color and an edge color. We can also use the alpha parameter to adjust transparency. We can assign a line width and then specify the zorder. The zorder lets us organize which layers will be on top of other layers. A higher z order in one layer places it above another layer with a lower zorder. It is also important to assign which column we want to plot. Lastly, we can also specify if we want to display a legend for a specific layer.
+
+```python
+# Assign layers to the axis
+reference_layer_df.plot(ax=ax, color='white', alpha=0.5, edgecolor='black', linewidth=0.2, zorder=1) # Plot the reference layers
+in_df.plot(ax=ax, linewidth=1.2, zorder=2, column="FEATURE_TYPE", legend=True) # Plot the road construction layer
+````
+
+
+
+
+
+
+Next we want to calculate the length of the road construction for each map. Currently our data is in a geographic coordinate system. We need to project it to a projected coordinate system. We will use the Canada Lambert Conformal Conic projection in this tutorial. Geopandas has the built in functionality to reproject our data by using .to_crs method. As a parameter, we can give the method a CRS ID. 
+
+We will then use the .length function to calculate the length of each geometry in the dataframe. Then we will sum the lengths to get the total length and then divide by 1000 to convert to kilometers. The unit was in meters as that is the unit of the crs we used. We will then format the string to two decimal places. Then we call a method to add the road construction length to our figure. We specify where we want it as x and y coordinates and then feed it the actual text itself. 
+.
+
+```python
+# Reproject to Canada Lambert Conformal Conic in order to correctly calculate lengths in meters and add to map as kilometers
+projected_df = in_df.to_crs("ESRI:102002")
+length_of_roads = (projected_df.length.sum())/1000
+length_for_map = "{:.0f}".format(length_of_roads)
+plt.text(x=-75.4,y=44.95, s="Road Work (km): {}".format(length_for_map)) # Add text with length info to our maps
+````
+
+A basemap is alwats useful in order to give cont
