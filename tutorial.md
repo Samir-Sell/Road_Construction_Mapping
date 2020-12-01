@@ -3,7 +3,10 @@
 This tutorial will be an introduction to using Geopandas and Matplotlib to automate data download, data cleaning, basic analysis and map making. A basic understanding of Python, Python interpreters and Python module download will be assumed in this tutorial. 
 
 The data for this tutorial is hosted on 
-Open Ottawa and can be found here: https://open.ottawa.ca/datasets/construction-road-resurfacing-watermain-sewer-multi-use-pathways-bike-lanes/data?geometry=-76.197%2C45.274%2C-75.675%2C45.359&page=9. It has an application programming interface (API) which will also us to make requests to download data. Additionally, we will be using this geojson as a reference layer for our maps: https://open.ottawa.ca/datasets/wards-2010
+Open Ottawa and can be found here: https://open.ottawa.ca/datasets/construction-road-resurfacing-watermain-sewer-multi-use-pathways-bike-lanes/data?geometry=-76.197%2C45.274%2C-75.675%2C45.359&page=9. It has an application programming interface (API) which will also us to make requests to download data. Ensure to view the data tab on the City of Ottawa website. Explore a few pages and get familliar with the data. Pay special attention to the TARGETED_START date as this is the row we will be primarily dividing our validated data by. Additionally, take a look at the STATUS column and see if you can find a row that contains a NOTAVAIL value. When working with data, it is always important to become familiar with the data. Keep an eye out for any data that has missing values. 
+
+
+Additionally, we will be using this geojson as a reference layer for our maps: https://open.ottawa.ca/datasets/wards-2010
 
 ***
 
