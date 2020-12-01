@@ -213,11 +213,6 @@ reference_layer_df.plot(ax=ax, color='white', alpha=0.5, edgecolor='black', line
 in_df.plot(ax=ax, linewidth=1.2, zorder=2, column="FEATURE_TYPE", legend=True) # Plot the road construction layer
 ````
 
-
-
-
-
-
 Next we want to calculate the length of the road construction for each map. Currently our data is in a geographic coordinate system. We need to project it to a projected coordinate system. We will use the Canada Lambert Conformal Conic projection in this tutorial. Geopandas has the built in functionality to reproject our data by using .to_crs method. As a parameter, we can give the method a CRS ID. 
 
 We will then use the .length function to calculate the length of each geometry in the dataframe. Then we will sum the lengths to get the total length and then divide by 1000 to convert to kilometers. The unit was in meters as that is the unit of the crs we used. We will then format the string to two decimal places. Then we call a method to add the road construction length to our figure. We specify where we want it as x and y coordinates and then feed it the actual text itself. 
@@ -245,4 +240,30 @@ Finally, we will save our finished map.The first step will be to create a file n
 map_name = layer_title + date_today
 print("Saving map: " + map_name + "....")
 plt.savefig(os.path.join(mapping_directory, map_name))
+````
+
+## Finishing Touches 
+
+We now have our function created and everything else layed out. We now need to call the function three more times in order to create the rest of our maps for the different expected construction time periods. We will repeat the code snippet that was used in the "Making the Map" subheader of this tutorial. However, we will alter the layer title and what values we are filtering for in order to create a map for projects started in the next 1 to 2 years, 3 to 5 years and then 4 to 7 years. The code explanation is the same and the 3 other maps are posted below and are in our main function under the in progress snipped we created earlier. 
+
+```python
+# Filter for road construction starting in 1 - 2 years and send layers to be processed into a map
+    layer_title = "1-2_Years_"
+    one_to_two_filter = road_df["TARGETED_START"].str.startswith("1") # Create filter
+    one_to_two_df = road_df[one_to_two_filter] # Apply filter
+    save_map(reference_layer_df, one_to_two_df, layer_title, date_today, maps_day_folder) # Send layers
+
+    # Filter for road construction starting in 3 - 5 years and send layers to be processed into a map
+    layer_title = "3-5_Years_"
+    three_to_five_filter = road_df["TARGETED_START"].str.startswith("3") # Create filter
+    three_to_five_df = road_df[three_to_five_filter] # Apply filter
+    save_map(reference_layer_df, three_to_five_df, layer_title, date_today, maps_day_folder) # Send layers
+
+    # Filter for road construction starting in 4 - 7 years and send layers to be processed into a map
+    layer_title = "4-7_Years_"
+    four_to_seven_filter = road_df["TARGETED_START"].str.startswith("4") # Create filter
+    four_to_seven_df = road_df[four_to_seven_filter] # Apply filter
+    save_map(reference_layer_df, four_to_seven_df, layer_title, date_today, maps_day_folder) # Send layers
+
+    print("Script completed successfully")
 ````
