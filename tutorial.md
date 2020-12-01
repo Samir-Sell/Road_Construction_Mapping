@@ -268,7 +268,11 @@ We now have our function created and everything else layed out. We now need to c
     print("Script completed successfully")
 ````
 
-Congratulations! You have now created a map creation tool for City of Ottawa road construction data sets! Try to run the whole script and watch as your maps are created and time stamped! In case anything about the code sequence was confusing, I have added the whole script below for you to view:
+Congratulations! You have now created a map creation tool for City of Ottawa road construction data sets! Try to run the whole script and watch as your maps are created and time stamped!
+
+## Whole Script
+
+In case anything about the code sequence was confusing, I have added the whole script below for you to view.
 
 ```python
 # Import required modules
